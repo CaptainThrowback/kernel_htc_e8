@@ -411,11 +411,6 @@ int android_switch_function(unsigned func)
 	}
 
 	
-	if (board_mfg_mode() == 2) {
-		printk("[USB] recovery mode only accept UMS or ADB + UMS combination\n");
-		func &= (1 << USB_FUNCTION_UMS) | (1 << USB_FUNCTION_ADB);
-	}
-
 	val = htc_usb_get_func_combine_value();
 
 	pr_info(" %u, before %u\n", func, val);
@@ -1185,8 +1180,6 @@ static void setup_vendor_info(struct android_dev *dev) {
 		ANDROID_USB_ENABLE_FUNC(dev, conf, "diag");
 		ANDROID_USB_ENABLE_FUNC(dev, conf, "modem");
 		ANDROID_USB_ENABLE_FUNC(dev, conf, "rmnet");
-	} else if (board_mfg_mode() == 2) {
-		ANDROID_USB_ENABLE_FUNC(dev, conf, "mass_storage");
 	} else {
 		ANDROID_USB_ENABLE_FUNC(dev, conf, "mtp");
 		ANDROID_USB_ENABLE_FUNC(dev, conf, "mass_storage");
